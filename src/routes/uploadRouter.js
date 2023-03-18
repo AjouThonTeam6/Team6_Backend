@@ -20,8 +20,18 @@ const uploader = multer({
  * paths:
  *  /upload/sheet:
  *   post:
- *     summary: csv,...파일업
- *     description: ''
+ *     summary: Upload a CSV file
+ *     description: Endpoint to upload a CSV file
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
  *     responses:
  *       '200':
  *         description: OK
@@ -31,7 +41,8 @@ const uploader = multer({
  *               type: object
  *               properties:
  *                 message:
- *                   example: 'pong'
+ *                   type: string
+ *                   example: '200'
  */
 
 router.post('/sheet', uploader.single('file'), uploadFile);
