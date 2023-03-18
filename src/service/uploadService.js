@@ -7,11 +7,18 @@ const uploadFile = async (req, res) => {
   ]);
 
   //파이썬 파일 수행 결과를 받아온다
-  await net.stdout.on(
+  net.stdout.on(
     'data',
     await function (data) {
       console.log(data.toString());
       return res.status(200).json({ message: '200' });
+    }
+  );
+  net.stderr.on(
+    'close',
+    await function (data) {
+      console.log(data.toString());
+      return res.status(200).json({ message: data.toString() });
     }
   );
 };
