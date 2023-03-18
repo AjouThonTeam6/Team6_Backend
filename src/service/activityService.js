@@ -25,12 +25,22 @@ const activityService = async (req, res) => {
     .json({ message: response.data.choices[0].message.content });
 };
 
-module.exports = activityService;
+const uploadService = async (req, res) => {
+  const { topic, content } = req.body;
 
-// const activity = await spawn('python3', [
-//   process.cwd() + '/src/service/sendEmail.py',
-// ]);
+  const activityUpload = await spawn('python3', [
+    process.cwd() + '/src/service/activity.py',
+    topic,
+    content,
+  ]);
 
-// activity.stdin.setEncoding('utf-8');
-// activity.stdin.write('TEST' + '\r\n');
-// activity.stdin.end();
+  activityUpload.stdout.on(
+    'data',
+    await function (data) {
+      console.log(data.toString());
+      return res.status(200).json({ message: '200' });
+    }
+  );
+};
+
+module.exports = { activityService, uploadService };
