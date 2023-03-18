@@ -1,12 +1,14 @@
+import csv
 import time
+from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.by import By
-import sys  # acquire parameters
-import pandas as pd
+import sys
 import os
-
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
-driver = webdriver.Chrome(ChromeDriverManager().install())
+from selenium.webdriver.chrome.service import Service
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+data = []
 
 
 def find_btn_menu_1():
@@ -31,8 +33,75 @@ def find_btn_menu_2():
     return
 
 
-# import sys를 활용하여 매개변수를 받아온다.
-if __name__ == '__main__':
+def find_btn_menu_3():
+    try:
+        time.sleep(1)
+        btn_detail = driver.find_elements('id', 'btnDetail')
+        time.sleep(1)
+        driver.execute_script("arguments[0].click();", btn_detail[10])
+        # btn_detail.click()
+        # btn_detail.send_keys(Keys.ENTER)
+        # driver.execute_script("arguments[0].click();", btn_detail)
+    except Exception as e:
+        print(e)
+    return
+
+
+def find_btn_menu_add():
+    try:
+        time.sleep(2)
+        btn_add = driver.find_element(
+            By.XPATH, "//button[contains(text(), '추가')]")
+        time.sleep(1)
+        driver.execute_script("arguments[0].click();", btn_add)
+    except Exception as e:
+        print(e)
+    return
+
+
+def parse_csv():
+    try:
+        os.chdir(os.getcwd())
+        with open(sys.argv[1], newline='', encoding='cp949') as csvfile:
+            reader = csv.reader(csvfile)
+            flag = 0
+            for row in reader:
+                if (flag == 0):
+                    flag += 1
+                    continue
+                else:
+                    data.append(row)
+            # print(data)
+    except Exception as e:
+        print(e)
+    return
+
+
+def apply_data(position, student_id):
+    try:
+        time.sleep(1)
+        select_position = Select(driver.find_element(
+            by=By.CSS_SELECTOR, value='select[key="cmmnCd"][key-name="korNm"]'))
+        select_position.select_by_index(position)
+        select_student_id = driver.find_element(
+            by=By.CSS_SELECTOR, value='input[ng-model="pc.popData.row.stdNo"]')
+        select_student_id.send_keys(student_id)
+        select_submit_btn = driver.find_element(
+            by=By.CSS_SELECTOR, value='button[ng-click="pc.clickBtn(\'save\', saveForm)"]')
+        driver.execute_script("arguments[0].click();", select_submit_btn)
+        select_submit2_btn = driver.find_element(
+            by=By.CSS_SELECTOR, value='button[ng-click="modal.ok()"]')
+        driver.execute_script("arguments[0].click();", select_submit2_btn)
+        time.sleep(0.5)
+        select_submit3_btn = driver.find_element(
+            by=By.CSS_SELECTOR, value='button[ng-click="modal.close()"]')
+        driver.execute_script("arguments[0].click();", select_submit3_btn)
+    except Exception as e:
+        print(e)
+    return
+
+
+def login():
     driver.get('https://mhaksa.ajou.ac.kr:30443/index.html')
     driver.maximize_window()
     input_id = driver.find_element('name', 'userId')
@@ -42,9 +111,30 @@ if __name__ == '__main__':
     input_pw.send_keys('030217nana')
     btn_login.click()
 
+
+def register_inner_club():
     find_btn_menu_1()
-
     find_btn_menu_2()
+    find_btn_menu_3()
+    parse_csv()
 
-    while (True):
-        pass
+    for i in data:
+        find_btn_menu_add()
+        apply_data(i[0], i[1])
+
+
+def register_general_club():
+    find_btn_menu_1()
+    find_btn_menu_2()
+    find_btn_menu_3()
+
+
+if __name__ == '__main__':
+    login()
+    register_inner_club()
+    print("Complete")
+    sys.stdout.flush()
+
+
+while (True):
+    pass
