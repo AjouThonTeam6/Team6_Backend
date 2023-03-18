@@ -1,5 +1,6 @@
 const spawn = require('child_process').spawn;
 const uploadFile = async (req, res) => {
+  const { id, passwd } = req.body;
   console.log(req.file);
   const net = await spawn('python3', [
     process.cwd() + '/src/service/upload.py',

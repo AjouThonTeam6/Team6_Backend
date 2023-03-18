@@ -29,6 +29,10 @@ const uploader = multer({
  *           schema:
  *             type: object
  *             properties:
+ *               id:
+ *                 format: string
+ *               passwd:
+ *                 format: string
  *               file:
  *                 type: string
  *                 format: binary
