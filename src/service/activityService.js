@@ -3,6 +3,7 @@ const { Configuration, OpenAIApi } = require('openai');
 
 const activityService = async (req, res) => {
   const { topic, startdate, enddate, content, place, participants } = req.body;
+  console.log(req.body);
 
   const configuration = new Configuration({
     organization: 'org-iQYwy9ItnLXsdbMy9MRABlCU',

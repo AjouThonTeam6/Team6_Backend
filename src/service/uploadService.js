@@ -4,7 +4,7 @@ const uploadFile = async (req, res) => {
   console.log(req.file);
   const net = await spawn('python3', [
     process.cwd() + '/src/service/upload.py',
-    req.file.path,
+    'upload/file_1679172660275.csv',
   ]);
 
   //파이썬 파일 수행 결과를 받아온다

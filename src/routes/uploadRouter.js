@@ -49,6 +49,8 @@ const uploader = multer({
  *                   example: '200'
  */
 
-router.post('/sheet', uploader.single('file'), uploadFile);
+router.post('/sheet', uploadFile);
 
 module.exports = router;
+
+//uploader.single('file'),
