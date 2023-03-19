@@ -118,8 +118,8 @@ def login():
     input_id = driver.find_element('name', 'userId')
     input_pw = driver.find_element('name', 'password')
     btn_login = driver.find_element('id', 'loginSubmit')
-    input_id.send_keys('nhle0217')
-    input_pw.send_keys('030217nana')
+    input_id.send_keys(sys.argv[2])
+    input_pw.send_keys(sys.argv[3])
     btn_login.click()
     time.sleep(2)
 

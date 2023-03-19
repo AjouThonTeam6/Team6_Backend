@@ -3,6 +3,7 @@ const { Configuration, OpenAIApi } = require('openai');
 
 const activityService = async (req, res) => {
   const { topic, startdate, enddate, content, place, participants } = req.body;
+  console.log(req.body);
 
   const configuration = new Configuration({
     organization: 'org-iQYwy9ItnLXsdbMy9MRABlCU',
@@ -26,12 +27,14 @@ const activityService = async (req, res) => {
 };
 
 const uploadService = async (req, res) => {
-  const { topic, content } = req.body;
+  const { topic, content, id, passwd } = req.body;
 
   const activityUpload = await spawn('python3', [
     process.cwd() + '/src/service/activity.py',
     topic,
     content,
+    id,
+    passwd,
   ]);
 
   activityUpload.stdout.on(

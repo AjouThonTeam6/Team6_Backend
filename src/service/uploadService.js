@@ -5,6 +5,8 @@ const uploadFile = async (req, res) => {
   const net = await spawn('python3', [
     process.cwd() + '/src/service/upload.py',
     req.file.path,
+    id,
+    passwd,
   ]);
 
   //파이썬 파일 수행 결과를 받아온다

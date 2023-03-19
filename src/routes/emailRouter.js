@@ -15,36 +15,6 @@ const uploader = multer({
   }),
 });
 
-/**
- * @swagger
- * paths:
- *  /email:
- *   post:
- *     summary: Upload a CSV file
- *     description: Endpoint to upload a CSV file
- *     requestBody:
- *       required: true
- *       content:
- *         multipart/form-data:
- *           schema:
- *             type: object
- *             properties:
- *               file:
- *                 type: string
- *                 format: binary
- *     responses:
- *       '200':
- *         description: OK
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: '200'
- */
-
 router.post('', uploader.single('file'), emailFile);
 
 module.exports = router;

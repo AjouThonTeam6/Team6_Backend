@@ -4,13 +4,13 @@ from email.mime.multipart import MIMEMultipart
 
 
 def mail(content):
-    send_email = "qorwhdghjr@ajou.ac.kr"
-    send_pw = "100jongho^^"
+    send_email = ""
+    send_pw = ""
     results = []
 
     s = smtplib.SMTP_SSL('smtp.gmail.com')
     s.login(send_email, send_pw)
-    receive_emails = ['qorwhdgh@gmail.com']
+    receive_emails = ['']
     for receive in receive_emails:
         msg = MIMEMultipart('alternative')
         msg['Subject'] = "TEST"
