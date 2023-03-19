@@ -49,7 +49,7 @@ const uploader = multer({
  *                   example: '200'
  */
 
-router.post('/sheet', uploadFile);
+router.post('/sheet', uploader.single('file'), uploadFile);
 
 module.exports = router;
 

@@ -27,12 +27,14 @@ const activityService = async (req, res) => {
 };
 
 const uploadService = async (req, res) => {
-  const { topic, content } = req.body;
+  const { topic, content, id, passwd } = req.body;
 
   const activityUpload = await spawn('python3', [
     process.cwd() + '/src/service/activity.py',
     topic,
     content,
+    id,
+    passwd,
   ]);
 
   activityUpload.stdout.on(
